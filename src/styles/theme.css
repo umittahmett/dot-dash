@@ -1,0 +1,9 @@
+@theme {
+    /* Primary */
+    --color-primary: #8752FF;
+
+    /* Secondary */
+    --color-secondary: #5A9E33;
+
+    --color-background: #E8E4DA;
+}

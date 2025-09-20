@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 @import "tailwindcss";
+@import "./theme.css" layer(theme);
 
+body {
+  font-family: 'Zilla Slab', serif;
+}
+
+/* Vue Transitions */
 .v-enter-active,
 .v-leave-active {
   transition: opacity 500ms ease, transform 500ms ease;
