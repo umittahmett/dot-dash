@@ -15,9 +15,9 @@
       v-bind="$attrs"
     />
 
-    <button @click="copy(value || '')" class="absolute right-3 bottom-4 active:scale-95">
-      <CopyIcon v-show="!copied" class="duration-200 text-primary" />
-      <CopiedIcon v-show="copied"  class="duration-200 text-secondary" />
+    <button @click="copy(value || '')" :class="clsx('cursor-pointer absolute text-white rounded-xl p-2 right-3 bottom-4 active:scale-95', copied ? 'bg-secondary' : 'bg-primary')">
+      <CopyIcon v-show="!copied" class="duration-200" />
+      <CopiedIcon v-show="copied"  class="duration-200" />
     </button>
   </div>
 </template>
@@ -27,6 +27,7 @@
   import CopiedIcon from '@/assets/icons/copied.svg';
 
   import { useClipboard } from '@vueuse/core'
+  import clsx from 'clsx';
 
   const value = defineModel<string>()
   const { copy, copied } = useClipboard()
