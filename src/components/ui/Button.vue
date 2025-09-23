@@ -1,9 +1,10 @@
 <template>
   <button
     v-bind="$attrs"
-    :class="clsx('cursor-pointer relative active:scale-95 mb-1 mr-1 disabled:cursor-not-allowed disabled:select-none disabled:active:scale-100 disabled:opacity-50', extraClass)">
+    class="cursor-pointer relative active:scale-95 mb-1 mr-1 disabled:cursor-not-allowed disabled:select-none disabled:active:scale-100 disabled:opacity-50">
     <div :class="[
       'relative z-2 text-white border-2 border-black rounded-lg [&>svg]:size-6 flex items-center justify-center',
+      extraClass,
       {
         'bg-primary': variant === 'primary',
         'bg-secondary': variant === 'secondary'

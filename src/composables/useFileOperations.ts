@@ -1,7 +1,7 @@
 // composables/useFileOperations.js
 import { ref } from 'vue'
 
-// Singleton pattern - aynı state'i paylaş
+
 const loading = ref(false)
 const errorMessage = ref('')
 

@@ -1,6 +1,6 @@
 // composables/useMorse.js
 import { ref, watch } from 'vue'
-import { cleanUpUnsupportedCharacters, morseConverter } from '@/utils/morseUtils'
+import { morseConverter } from '@/utils/morseUtils'
 
 export function useMorse() {
   const text = ref('')
@@ -25,13 +25,21 @@ export function useMorse() {
   })
 
   const cleanUp = () => {
-    cleanUpUnsupportedCharacters(text.value, unsupportedCharacters.value)
+    text.value = text.value.replace(new RegExp(`[${unsupportedCharacters.value.map(char => char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('')}]`, 'g'), '')
+    unsupportedCharacters.value = []
+  }
+
+  const clearAll = () => {
+    text.value = ''
+    message.value = ''
+    unsupportedCharacters.value = []
   }
 
   return {
     text,
     message,
     unsupportedCharacters,
-    cleanUp
+    cleanUp,
+    clearAll
   }
 }

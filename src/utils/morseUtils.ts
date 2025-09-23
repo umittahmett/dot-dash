@@ -130,8 +130,5 @@ const morseConverter = (text: string, unsupportedCharacters: string[]) => {
   return { convertedMessage, updatedUnsupportedCharacters }
 }
 
-function cleanUpUnsupportedCharacters(text: string, unsupportedCharacters: string[]) {
-  return text.replace(new RegExp(`[${unsupportedCharacters.map(char => char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('')}]`, 'g'), '')
-}
 
-export { morseCodes, isMorseCode, morseConverter, cleanUpUnsupportedCharacters }
+export { morseCodes, isMorseCode, morseConverter }
