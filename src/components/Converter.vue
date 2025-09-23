@@ -23,7 +23,7 @@ const { frequency, playbackRate, soundStatus, audioRef, stopSound, pauseResumeSo
 </script>
 
 <template>
-  <div class="space-y-5 w-full">
+  <div class="flex flex-col gap-4 w-full">
     <p class="text-red-600 text-sm mb-0.5">{{ errorMessage }}</p>
     <Input extraClass='w-full' placeholder="Type text or Morse code 
 Example: ' ... --- ... / - .... . '" v-model="text" />

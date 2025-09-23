@@ -17,7 +17,7 @@ const { loading } = useFileOperations()
   >
     <div class="lg:rounded-[36px] lg:bg-black lg:p-5 w-full lg:max-w-7xl">
       <div class="bg-background rounded-2xl p-5">
-        <div class="space-y-6 w-full">
+        <div class="w-full">
           <Navbar />
           <Converter/>
         </div>
