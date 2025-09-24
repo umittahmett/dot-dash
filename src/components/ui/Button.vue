@@ -7,7 +7,9 @@
       extraClass,
       {
         'bg-primary': variant === 'primary',
-        'bg-secondary': variant === 'secondary'
+        'bg-secondary': variant === 'secondary',
+        'bg-red-600': variant === 'danger',
+        'bg-yellow-600': variant === 'warn'
       },
       {
         'px-2.5 py-1.5 text-sm gap-2': size === 'sm',
@@ -25,10 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import clsx from 'clsx';
-
 interface Props {
-  variant?: 'primary' | 'secondary'
+  variant?: 'primary' | 'secondary' | 'danger' | 'warn'
   size?: 'sm' | 'lg' | 'icon' | 'sm-icon'
   extraClass?: string
 }
