@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Third party
+import clsx from 'clsx';
+
 // Composables
 import { useAudio } from '@/composables/useAudio';
 import { useFileOperations } from '@/composables/useFileOperations';
@@ -15,16 +18,45 @@ import PauseIcon from '@/assets/icons/pause.svg';
 import UploadIcon from '@/assets/icons/upload.svg';
 import DownloadIcon from '@/assets/icons/download.svg';
 import TrashIcon from '@/assets/icons/trash.svg';
+import DotIcon from '@/assets/icons/dot.svg'
+import MicrophoneIcon from '@/assets/icons/microphone.svg'
 
-const { text, message, unsupportedCharacters, cleanUp, clearAll } = useMorse()
-const { errorMessage, fileInput, triggerFileInput, decodeAudio } = useFileOperations()
-const { frequency, playbackRate, soundStatus, audioRef, stopSound, pauseResumeSound, morseSound, downloadAudio } = useAudio()
+const { 
+  text, 
+  message, 
+  unsupportedCharacters, 
+  cleanUp, 
+  clearAll 
+} = useMorse()
+
+const { 
+  errorMessage, 
+  fileInput, 
+  triggerFileInput, 
+  decodeAudio 
+} = useFileOperations()
+
+const { 
+  frequency, 
+  playbackRate, 
+  soundStatus, 
+  audioRef, 
+  showRecordingModal, 
+  recordingError, 
+  isRecording, 
+  stopSound, 
+  pauseResumeSound, 
+  morseSound, 
+  downloadAudio, 
+  stopRecord, 
+  startRecord 
+} = useAudio()
 
 </script>
 
 <template>
   <div class="flex flex-col gap-4 w-full">
-    <p class="text-red-600 text-sm mb-0.5">{{ errorMessage }}</p>
+    <p class="text-red-600 mt-4">{{ errorMessage || recordingError }}</p>
     <Input extraClass='w-full' placeholder="Type text or Morse code 
 Example: ' ... --- ... / - .... . '" v-model="text" />
 
@@ -62,41 +94,69 @@ Example: ' ... --- ... / - .... . '" v-model="text" />
         </div>
       </div>
 
-      <div class="flex items-center gap-2.5 justify-center">
+      <div class="flex justify-center gap-2.5">
         <Button extraClass="!flex-col" size="icon" :disabled="soundStatus !== 'playing' && message == ''"
           @click="soundStatus == 'stopped' ? morseSound(message, text) : pauseResumeSound()" class="mt-2"
-          variant="primary">
+          :variant="soundStatus == 'playing' ? 'warn' : 'secondary'">
           <PlayIcon v-if="soundStatus == 'paused' || soundStatus == 'stopped'" />
           <PauseIcon v-else class="text-lg font-bold" />
-          <div class="text-xs">{{ soundStatus == 'paused' ? 'Play' : 'Pause' }}</div>
+          <div class="text-xs mt-px">{{ soundStatus == 'paused' || soundStatus == 'stopped' ? 'Play' : 'Pause' }}</div>
         </Button>
 
-        <Button extraClass="!flex-col" size="icon" :disabled="soundStatus == 'stopped'" @click="stopSound()" class="mt-2" variant="primary">
+        <Button extraClass="!flex-col" size="icon" :disabled="soundStatus == 'stopped'" @click="stopSound()" class="mt-2" variant="danger">
           <StopIcon />
-          <div class="text-xs">Stop</div>
+          <div class="text-xs mt-px">Stop</div>
+        </Button>
+
+        <Button extraClass="!flex-col" size="icon" @click="clearAll" class="mt-2" variant="danger">
+          <TrashIcon />
+          <div class="text-xs mt-px">Clear</div>
         </Button>
 
         <Button extraClass="!flex-col" size="icon" :disabled="soundStatus == 'playing'" @click="triggerFileInput" class="mt-2"
-          variant="primary">
+          variant="secondary">
           <UploadIcon />
           <input multiple="false" ref="fileInput" class="hidden" type="file"
             @change="decodeAudio($event.target?.files[0], (newText) => text = newText, (newMessage) => message = newMessage)" />
 
-          <div class="text-xs">Upload</div>
+          <div class="text-xs mt-px">Upload</div>
         </Button>
 
-        <Button extraClass="!flex-col" size="icon" @click="downloadAudio(message, text)" :disabled="!message" class="mt-2" variant="primary">
+        <Button extraClass="!flex-col" size="icon" @click="downloadAudio(message, text)" :disabled="!message" class="mt-2" variant="secondary">
           <DownloadIcon />
-          <div class="text-xs">Download</div>
+          <div class="text-xs mt-px">Download</div>
         </Button>
 
-        <Button extraClass="!flex-col" size="icon" @click="clearAll" class="mt-2" variant="primary">
-          <TrashIcon />
-          <div class="text-xs">Clear</div>
+        <Button extraClass="!flex-col" size="icon" 
+          @click="isRecording ? stopRecord() : startRecord(message, text)" 
+          :disabled="soundStatus == 'playing'" 
+          class="mt-2" 
+          variant="secondary">
+          <DotIcon :class="clsx('scale-200',isRecording ? 'text-red-500 animate-pulse' : 'text-white')" />
+          <div class="text-xs mt-px">{{ isRecording ? 'Stop Rec' : 'Record' }}</div>
         </Button>
       </div>
     </div>
 
     <audio ref="audioRef" />
+
+    <!-- Recording Modal -->
+    <div v-if="showRecordingModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+      <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center relative">
+        <!-- Recording Animation -->
+        <div v-if="isRecording">
+          <div class="mx-auto size-14 mb-4 text-white bg-red-500 rounded-full flex items-center justify-center animate-pulse">
+            <MicrophoneIcon/>
+          </div>
+          
+          <h3 class="text-xl font-bold text-red-600 mb-2">Recording...</h3>
+          <p class="text-gray-600">Speak your morse code</p>
+          
+          <Button @click="stopRecord" variant="primary" class="mt-4">
+            End Recording
+          </Button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

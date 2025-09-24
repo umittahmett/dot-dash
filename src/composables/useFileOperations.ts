@@ -1,9 +1,17 @@
 // composables/useFileOperations.js
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 
 const loading = ref(false)
 const errorMessage = ref('')
+
+watch(errorMessage, (newValue) => {
+  if (newValue) {
+    setTimeout(() => {
+      errorMessage.value = ''
+    }, 3000)
+  }
+})
 
 export function useFileOperations() {
   const fileInput = ref<HTMLInputElement>()
