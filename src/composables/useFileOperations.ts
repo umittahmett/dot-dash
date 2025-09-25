@@ -1,6 +1,5 @@
-// composables/useFileOperations.js
+// Core
 import { ref, watch } from 'vue'
-
 
 const loading = ref(false)
 const errorMessage = ref('')
@@ -16,12 +15,10 @@ watch(errorMessage, (newValue) => {
 export function useFileOperations() {
   const fileInput = ref<HTMLInputElement>()
 
-  // File input'u tetikle
   const triggerFileInput = () => {
     fileInput.value?.click()
   }
-
-  // Audio dosyasını decode et
+  
   const decodeAudio = async (file: File, setText: (text: string) => void, setMessage: (message: string) => void) => {
     if (!file) return
 

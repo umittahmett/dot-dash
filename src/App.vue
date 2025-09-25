@@ -1,8 +1,13 @@
 <script setup lang="ts">
 
+// Components
 import Navbar from '@/components/Navbar.vue';
-import Converter from '@/components/converter.vue';
+import Converter from '@/components/Converter.vue';
+
+// Composables
 import { useFileOperations } from '@/composables/useFileOperations';
+
+// Utils
 import clsx from 'clsx';
 
 const { loading } = useFileOperations()

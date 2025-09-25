@@ -1,3 +1,34 @@
+<script setup lang="ts">
+  // Icons
+  import CopyIcon from '@/assets/icons/copy.svg';
+  import CopiedIcon from '@/assets/icons/copied.svg';
+
+  // Third Party
+  import { useClipboard } from '@vueuse/core'
+
+  // Utils
+  import clsx from 'clsx';
+
+  const value = defineModel<string>()
+  const { copy, copied } = useClipboard()
+
+  defineOptions({
+    inheritAttrs: false
+  })
+
+  interface Props {
+    disabled?: boolean
+    extraClass?: string
+    type?: string
+  }
+
+  const props = withDefaults(defineProps<Props>(), {
+    disabled: false,
+    extraClass: '',
+    type: '',
+  })
+</script>
+
 <template>
   <div class="relative">
     <textarea 
@@ -21,30 +52,3 @@
     </button>
   </div>
 </template>
-
-<script setup lang="ts">
-  import CopyIcon from '@/assets/icons/copy.svg';
-  import CopiedIcon from '@/assets/icons/copied.svg';
-
-  import { useClipboard } from '@vueuse/core'
-  import clsx from 'clsx';
-
-  const value = defineModel<string>()
-  const { copy, copied } = useClipboard()
-
-  defineOptions({
-    inheritAttrs: false
-  })
-
-  interface Props {
-    disabled?: boolean
-    extraClass?: string
-    type?: string
-  }
-
-  const props = withDefaults(defineProps<Props>(), {
-    disabled: false,
-    extraClass: '',
-    type: '',
-  })
-</script>

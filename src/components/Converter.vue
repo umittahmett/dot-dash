@@ -143,7 +143,6 @@ Example: ' ... --- ... / - .... . '" v-model="text" />
     <!-- Recording Modal -->
     <div v-if="showRecordingModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center relative">
-        <!-- Recording Animation -->
         <div v-if="isRecording">
           <div class="mx-auto size-14 mb-4 text-white bg-red-500 rounded-full flex items-center justify-center animate-pulse">
             <MicrophoneIcon/>

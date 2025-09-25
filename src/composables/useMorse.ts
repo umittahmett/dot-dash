@@ -1,5 +1,7 @@
-// composables/useMorse.js
+// Core
 import { ref, watch } from 'vue'
+
+// Utils
 import { morseConverter } from '@/utils/morseUtils'
 
 export function useMorse() {

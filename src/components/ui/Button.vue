@@ -1,3 +1,17 @@
+<script setup lang="ts">
+  interface Props {
+    variant?: 'primary' | 'secondary' | 'danger' | 'warn'
+    size?: 'sm' | 'lg' | 'icon' | 'sm-icon'
+    extraClass?: string
+  }
+
+  withDefaults(defineProps<Props>(), {
+    variant: 'primary',
+    size: 'lg',
+    extraClass: ''
+  })
+</script>
+
 <template>
   <button
     v-bind="$attrs"
@@ -25,17 +39,3 @@
     <div class="bg-black z-1 size-full rounded-lg absolute -bottom-1 -right-1"></div>
   </button>
 </template>
-
-<script setup lang="ts">
-interface Props {
-  variant?: 'primary' | 'secondary' | 'danger' | 'warn'
-  size?: 'sm' | 'lg' | 'icon' | 'sm-icon'
-  extraClass?: string
-}
-
-withDefaults(defineProps<Props>(), {
-  variant: 'primary',
-  size: 'lg',
-  extraClass: ''
-})
-</script>

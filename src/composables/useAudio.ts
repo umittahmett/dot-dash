@@ -1,7 +1,11 @@
-// composables/useAudio.js
+// Core
 import { ref, watch } from 'vue'
+
+// Utils
 import { isMorseCode } from '@/utils/morseUtils'
 import { audioBufferToWav, createMorseBuffer } from '@/utils/audioUtils'
+
+// Composables
 import { useFileOperations } from '@/composables/useFileOperations'
 
 export function useAudio() {
