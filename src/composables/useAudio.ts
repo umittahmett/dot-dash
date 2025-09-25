@@ -44,6 +44,7 @@ export function useAudio() {
 
   const stopSound = () => {
     if (audioRef.value) {
+      soundStatus.value = 'stopped'
       audioRef.value.currentTime = 0 
       audioRef.value.pause()         
     }
