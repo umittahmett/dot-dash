@@ -29,9 +29,13 @@ export function useAudio() {
       })
       
       newAudio.addEventListener('pause', () => {
-        soundStatus.value = 'paused'
+        if (newAudio.currentTime === 0) {
+          soundStatus.value = 'stopped'
+        } else {
+          soundStatus.value = 'paused'
+        }
       })
-      
+
       newAudio.addEventListener('ended', () => {
         soundStatus.value = 'stopped'
       })
@@ -40,8 +44,8 @@ export function useAudio() {
 
   const stopSound = () => {
     if (audioRef.value) {
-      audioRef.value.pause()
-      audioRef.value.currentTime = 0
+      audioRef.value.currentTime = 0 
+      audioRef.value.pause()         
     }
   }
 
@@ -132,7 +136,7 @@ export function useAudio() {
     }
   }
 
-  async function startRecord(text:string,message:string) {
+  async function startRecord(setText: (text: string) => void, setMessage: (message: string) => void) {
     try {
       recordingError.value = ''
       
@@ -171,7 +175,7 @@ export function useAudio() {
     
         recordedAudioUrl.value = URL.createObjectURL(audioBlob)
         const audioFile = new File([audioBlob], 'recording.wav', { type: 'audio/wav' })
-        decodeAudio(audioFile, (newText) => text = newText, (newMessage) => message = newMessage)
+        decodeAudio(audioFile, setText, setMessage)
         stream.getTracks().forEach(track => track.stop())
       }
       

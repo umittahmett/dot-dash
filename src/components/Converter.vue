@@ -32,8 +32,8 @@ const {
 const { 
   errorMessage, 
   fileInput, 
-  triggerFileInput, 
-  decodeAudio 
+  triggerFileInput,
+  handleFileChange
 } = useFileOperations()
 
 const { 
@@ -117,7 +117,7 @@ Example: ' ... --- ... / - .... . '" v-model="text" />
           variant="secondary">
           <UploadIcon />
           <input multiple="false" ref="fileInput" class="hidden" type="file"
-            @change="decodeAudio($event.target?.files[0], (newText) => text = newText, (newMessage) => message = newMessage)" />
+            @change="handleFileChange($event, (newText) => text = newText, (newMessage) => message = newMessage)" />
 
           <div class="text-xs mt-px">Upload</div>
         </Button>
@@ -128,7 +128,7 @@ Example: ' ... --- ... / - .... . '" v-model="text" />
         </Button>
 
         <Button extraClass="!flex-col" size="icon" 
-          @click="isRecording ? stopRecord() : startRecord(message, text)" 
+          @click="isRecording ? stopRecord() : startRecord((newText) => text = newText, (newMessage) => message = newMessage)" 
           :disabled="soundStatus == 'playing'" 
           class="mt-2" 
           variant="secondary">

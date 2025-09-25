@@ -53,6 +53,14 @@ export function useFileOperations() {
     }
   }
 
+  const handleFileChange = (event: Event, setText: (text: string) => void, setMessage: (message: string) => void) => {
+    const target = event.target as HTMLInputElement
+    const file = target?.files?.[0]
+    if (file) {
+      decodeAudio(file, setText, setMessage)
+    }
+  }
+
   const clearError = () => {
     errorMessage.value = ''
   }
@@ -63,6 +71,7 @@ export function useFileOperations() {
     fileInput,
     triggerFileInput,
     decodeAudio,
-    clearError
+    clearError,
+    handleFileChange
   }
 }
