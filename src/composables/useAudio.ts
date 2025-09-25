@@ -1,5 +1,5 @@
 // composables/useAudio.js
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { isMorseCode } from '@/utils/morseUtils'
 import { audioBufferToWav, createMorseBuffer } from '@/utils/audioUtils'
 import { useFileOperations } from '@/composables/useFileOperations'
@@ -18,12 +18,27 @@ export function useAudio() {
   const recordedAudioUrl = ref('')
   const showRecordingModal = ref(false)
 
+  watch(audioRef, (newAudio) => {
+    if (newAudio) {
+      newAudio.addEventListener('play', () => {
+        soundStatus.value = 'playing'
+      })
+      
+      newAudio.addEventListener('pause', () => {
+        soundStatus.value = 'paused'
+      })
+      
+      newAudio.addEventListener('ended', () => {
+        soundStatus.value = 'stopped'
+      })
+    }
+  })
+
   const stopSound = () => {
     if (audioRef.value) {
       audioRef.value.pause()
       audioRef.value.currentTime = 0
     }
-    soundStatus.value = 'stopped'
   }
 
   const pauseResumeSound = () => {
@@ -31,15 +46,12 @@ export function useAudio() {
     
     if (soundStatus.value === 'playing') {
       audioRef.value.pause()
-      soundStatus.value = 'paused'
     } else if (soundStatus.value === 'paused') {
       audioRef.value.play()
-      soundStatus.value = 'playing'
     }
   }
 
   const morseSound = async (message:string, text:string) => {
-    soundStatus.value = 'playing'
     
     if (!audioContext) {
       audioContext = new AudioContext()
@@ -52,7 +64,6 @@ export function useAudio() {
     const wavArrayBuffer = audioBufferToWav(morseBuffer)
     const blob = new Blob([wavArrayBuffer], { type: 'audio/wav' })
     
-    // Önceki blob URL temizle
     if (audioRef.value?.src) {
       URL.revokeObjectURL(audioRef.value.src)
     }
@@ -63,19 +74,9 @@ export function useAudio() {
       audioRef.value.src = audioUrl
       audioRef.value.playbackRate = 1.0
       
-      audioRef.value.onended = () => {
-        soundStatus.value = 'stopped'
-      }
-      
-      audioRef.value.onerror = () => {
-        soundStatus.value = 'stopped'
-        console.error('Audio playback error')
-      }
-      
       try {
         await audioRef.value.play()
       } catch (error) {
-        soundStatus.value = 'stopped'
         URL.revokeObjectURL(audioUrl)
         console.error('Audio play failed:', error)
       }
