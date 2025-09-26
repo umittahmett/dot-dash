@@ -119,6 +119,7 @@ Example: ' ... --- ... / - .... . '" v-model="text" />
           variant="secondary">
           <UploadIcon />
           <input multiple="false" ref="fileInput" class="hidden" type="file"
+            accept=".wav,.ogg,.mp3,.m4a" :max-size="5242880"
             @change="handleFileChange($event, (newText) => text = newText, (newMessage) => message = newMessage)" />
 
           <div class="text-xs mt-px">Upload</div>

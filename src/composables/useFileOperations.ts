@@ -20,7 +20,10 @@ export function useFileOperations() {
   }
   
   const decodeAudio = async (file: File, setText: (text: string) => void, setMessage: (message: string) => void) => {
-    if (!file) return
+    if (!file || file.size > 5 * 1024 * 1024) {
+      errorMessage.value = 'File size exceeded the limit (5MB)'
+      return
+    }
 
     const formData = new FormData()
     formData.append('audio', file)
