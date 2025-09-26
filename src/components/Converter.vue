@@ -71,8 +71,8 @@ Example: ' ... --- ... / - .... . '" v-model="text" />
 
     <Input readonly extraClass="w-full" placeholder="Translated Message" v-model="message" />
 
-    <div class="flex flex-col-reverse w-full *:w-full lg:grid lg:grid-cols-2 gap-6 items-center">
-      <div class="flex items-center gap-6 justify-center flex-col text-primary bg-white p-6 rounded-2xl">
+    <div class="flex flex-col-reverse w-full *:w-full lg:grid lg:grid-cols-5 xl:grid-cols-2 gap-6 items-center">
+      <div class="col-span-2 xl:col-span-1 flex items-center gap-6 justify-center flex-col text-primary bg-white p-6 rounded-2xl">
         <div class="flex items-start w-full gap-2 flex-col">
           <p>
             <span class="">Speed:</span>
@@ -94,7 +94,7 @@ Example: ' ... --- ... / - .... . '" v-model="text" />
         </div>
       </div>
 
-      <div class="flex justify-center gap-2.5">
+      <div class="flex justify-center gap-2.5 col-span-3 xl:col-span-1 flex-wrap">
         <Button extraClass="!flex-col" size="icon" :disabled="soundStatus !== 'playing' && message == ''"
           @click="soundStatus == 'stopped' ? morseSound(message, text) : pauseResumeSound()" class="mt-2"
           :variant="soundStatus == 'playing' ? 'warn' : 'secondary'">
