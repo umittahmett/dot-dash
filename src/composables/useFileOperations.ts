@@ -31,7 +31,7 @@ export function useFileOperations() {
       loading.value = true
       errorMessage.value = ''
 
-      const response = await fetch('http://localhost:8081/decode', {
+      const response = await fetch('https://morse-audio-decoder.onrender.com/api/decode', {
         method: 'POST',
         body: formData
       })
