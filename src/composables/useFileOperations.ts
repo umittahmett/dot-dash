@@ -26,7 +26,6 @@ export function useFileOperations() {
     formData.append('audio', file)
 
     try {
-      console.log('loading changed');
       
       loading.value = true
       errorMessage.value = ''
