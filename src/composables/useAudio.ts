@@ -22,6 +22,14 @@ export function useAudio() {
   const recordedAudioUrl = ref('')
   const showRecordingModal = ref(false)
 
+  watch(recordingError, (newValue) => {
+    if (newValue) {
+      setTimeout(() => {
+        recordingError.value = ''
+      }, 3000)
+    }
+  })
+
   watch(audioRef, (newAudio) => {
     if (newAudio) {
       newAudio.addEventListener('play', () => {

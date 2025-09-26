@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="flex items-center justify-between gap-4">
+  <div class="flex items-center justify-between gap-4 mb-4">
     <Button size="icon" variant="secondary">
       <div class="rounded-full size-2 bg-white"></div>
     </Button>

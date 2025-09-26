@@ -56,7 +56,9 @@ const {
 
 <template>
   <div class="flex flex-col gap-4 w-full">
-    <p class="text-red-600 mt-4">{{ errorMessage || recordingError }}</p>
+    <!-- Errors -->
+    <Transition><p v-if="errorMessage || recordingError" class="text-red-600">{{ errorMessage || recordingError }}</p></Transition>
+
     <Input extraClass='w-full' placeholder="Type text or Morse code 
 Example: ' ... --- ... / - .... . '" v-model="text" />
 
